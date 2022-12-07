@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>axios常用的配置项</title>
+</head>
+<body>
+  <button id="btn1">点我获取所有人</button><br><br>
+  <button id="btn2">点我获取测试数据</button><br><br>
+
+  <script type="text/javascript">
+    const btn1 = document.getElementById('btn1')
+    const btn2 = document.getElementById('btn2')
+
+    // 给axios配置默认属性，以后只要是axios发出去的请求，超时时间都是2秒，以后就可以不用在每一个axios配置项中都写下面两个配置
+    // 一劳永逸
+    axios.defaults.timeout = 2000
+    axios.defaults.headers = {school:JUFE}
+    // 在每一个发送请求的开始加上下面这段路径
+    axios.defaults.baseURL = 'http://localhost:5000'
+    
+    btn1.onclick = () => {
+      // 完整版
+      axios({
+        // url: 'http://localhost:5000/person',  // 请求地址
+        url: '/person',  // 请求地址
+        method: 'GET',
+        // params: {a: 1, b: 2},   // 配置query参数
+        // data:{ c:3, d:4 } // 配置请求体参数(json编码)
+        // data:`e=5&f=6` // 配置请求体参数(urlencoded编码)
+        // timeout:2000,  // 配置超时的时间
+        // headers:{school:JUFE},  // 配置请求头
+        // responseType: 'json',   //配置响应数据的格式(默认值)
+
+      }).then(
+        response => {console.log('成功了',response.data);},
+        error => {console.log('失败了',error);}
+      )
+    }
+    btn2.onclick = () => {
+      // 完整版
+      axios({
+        // url: 'http://localhost:5000/test1',  // 请求地址
+        url: '/test1',  // 请求地址
+        method: 'GET',
+        timeout:2000,  // 配置超时的时间
+        headers:{school:JUFE},  // 配置请求头
+      }).then(
+        response => {console.log('成功了',response.data);},
+        error => {console.log('失败了',error);}
+      )
+    }
+  </script>
+</body>
+</html>
