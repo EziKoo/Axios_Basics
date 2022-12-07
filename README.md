@@ -40,3 +40,15 @@
   axios.defaults.baseURL = 'http://localhost:5000'
 ```
 
+### axios的create()方法：
+
+`axios.create(config)`
+
+  1、根据指定的配置创建一个新的axios，也就是每个新的axios都有自己的配置
+
+  2、新axios只是没有取消请求和批量发送请求的方法，其他所有语法都是一致的
+
+  3、为什么要设计这个语法？
+
+    需求：项目中有部分接口需要的配置与另一部分接口需要的配置不太一样
+

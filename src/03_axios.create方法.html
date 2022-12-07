@@ -4,24 +4,42 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>axios常用的配置项</title>
+  <title>axios.create方法</title>
   <script src="./js/axios.min.js"></script>
 </head>
 <body>
+  <!-- 
+    axios.create(config)
+      1、根据指定的配置创建一个新的axios，也就是每个新的axios都有自己的配置
+      2、新axios只是没有取消请求和批量发送请求的方法，其他所有语法都是一致的
+      3、为什么要设计这个语法？
+        需求：项目中有部分接口需要的配置与另一部分接口需要的配置不太一样
+   -->
   <button id="btn1">点我获取所有人</button><br><br>
   <button id="btn2">点我获取测试数据</button><br><br>
+  <button id="btn3">点我获取笑话信息</button><br><br>
 
   <script type="text/javascript">
     const btn1 = document.getElementById('btn1')
     const btn2 = document.getElementById('btn2')
+    const btn3 = document.getElementById('btn3')
+
+    // 
+    const axios2 = axios.create({
+      timeout: 2000,
+      // headers: {name:'chy'},
+      // 在每一个发送请求的开始加上下面这段路径
+      baseURL: 'https://api.apiopen.top'
+    })
+
 
     // 给axios配置默认属性，以后只要是axios发出去的请求，超时时间都是2秒，以后就可以不用在每一个axios配置项中都写下面两个配置
     // 一劳永逸
     axios.defaults.timeout = 2000
-    axios.defaults.headers = {school:JUFE}
+    axios.defaults.headers = {school:'JUFE'}
     // 在每一个发送请求的开始加上下面这段路径
     axios.defaults.baseURL = 'http://localhost:5000'
-    
+
     btn1.onclick = () => {
       // 完整版
       axios({
@@ -48,6 +66,15 @@
         method: 'GET',
         timeout:2000,  // 配置超时的时间
         headers:{school:JUFE},  // 配置请求头
+      }).then(
+        response => {console.log('成功了',response.data);},
+        error => {console.log('失败了',error);}
+      )
+    }
+    btn3.onclick = () => {
+      axios2({
+        url:'/getJoke',
+        method: 'GET'
       }).then(
         response => {console.log('成功了',response.data);},
         error => {console.log('失败了',error);}
