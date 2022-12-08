@@ -24,11 +24,13 @@
 
   4、headers,       // 配置请求头信息
 
-  5、responseType,  //配置响应数据的格式(默认值json)
+  5、responseType,  // 配置响应数据的格式(默认值json)
 
   6、params,        // 配置query参数
 
-  7、data           // 配置请求体参数
+  7、data,          // 配置请求体参数
+
+  8、cancelToken    // 配置取消请求的配置
 
 ### axios的默认配置：
 ```javascript
