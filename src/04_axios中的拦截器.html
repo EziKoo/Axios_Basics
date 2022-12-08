@@ -17,10 +17,10 @@
     
     axios响应拦截器
       1、是什么？
-        得到响应之后执行的一个回调函数
+        得到响应之后执行的一组回调函数
       2、作用：
         若请求成功，对成功的数据进行处理
-        若请求失败，对失败进行进一步操作
+        若请求失败，对失败进行统一的操作
    -->
   <button id="btn1">点我获取所有人</button><br><br>
 
@@ -49,14 +49,23 @@
         }
       },
       // error => {console.log('响应拦截器失败的回调执行了',error);return {data:'chy'}}
-      error => {console.log('响应拦截器失败的回调执行了',error);return Promise.reject('我没请求成功')}
+      error => {
+        console.log('响应拦截器失败的回调执行了',error);
+        alert(error)
+        // return Promise.reject('我没请求成功')
+        return new Promise(()=>{})
+      }
     )
 
-    btn1.onclick = () => {
-      axios.get('http://localhost:5000/person').then(
-        response => {console.log('成功了',response.data);},
-        error => {console.log('失败了',error);}
-      )
+    // btn1.onclick = () => {
+    //   axios.get('http://localhost:5000/person').then(
+    //     response => {console.log('成功了',response.data);},
+    //     error => {console.log('失败了',error);}
+    //   )
+    // }
+
+    btn1.onclick = async() => {
+      const result = await axios.get('http://localhost:5000/person')
     }
   </script>
 </body>
