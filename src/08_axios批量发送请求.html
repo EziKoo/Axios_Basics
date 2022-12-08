@@ -30,6 +30,7 @@
       // )
       // console.log(result1,result2,result3);
 
+      // 底层原理还是针对Promise.all的封装
       axios.all([
         axios.get('http://localhost:5000/test1'),
         axios.get('http://localhost:5000/test2?delay=3000'),
