@@ -1,6 +1,6 @@
 // 该文件是接口调用示例：
 
-import request from ".";  // 引入index.js文件
+import request from "./request"; // 引入index.js文件
 
 // get请求，携带query参数
 export const getTest = (params) => {
