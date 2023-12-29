@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>axios中取消请求2</title>
-  <script src="../resource/axios.min.js"></script>
+  <script src="../../resource/axios.min.js"></script>
 </head>
 <body>
   <button id="btn1">点我获取测试数据</button><br><br>
@@ -22,7 +22,7 @@
       // 如果连续点击多次请求按钮，只发送最后一次请求
       if(cancel) cancel()
       axios({
-        url: 'http://localhost:5000/test1',
+        url: 'http://localhost:3000/persons',
         cancelToken: new CancelToken((c) => {   // c是一个函数，调用c就可以关闭本次请求
           cancel = c
         })

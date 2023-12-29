@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>axios常用的配置项</title>
-  <script src="../resource/axios.min.js"></script>
+  <script src="../../resource/axios.min.js"></script>
 </head>
 <body>
   <button id="btn1">点我获取所有人</button><br><br>
@@ -20,12 +20,12 @@
     axios.defaults.timeout = 2000
     axios.defaults.headers = {school:JUFE}
     // 在每一个发送请求的开始加上下面这段路径
-    axios.defaults.baseURL = 'http://localhost:5000'
+    axios.defaults.baseURL = 'http://localhost:3000'
     
     btn1.onclick = () => {
       // 完整版
       axios({
-        // url: 'http://localhost:5000/person',  // 请求地址
+        // url: 'http://localhost:3000/persons',  // 请求地址
         url: '/person',  // 请求地址
         method: 'GET',
         // params: {a: 1, b: 2},   // 配置query参数
@@ -43,8 +43,8 @@
     btn2.onclick = () => {
       // 完整版
       axios({
-        // url: 'http://localhost:5000/test1',  // 请求地址
-        url: '/test1',  // 请求地址
+        // url: 'http://localhost:3000/persons',  // 请求地址
+        url: '/persons',  // 请求地址
         method: 'GET',
         timeout:2000,  // 配置超时的时间
         headers:{school:JUFE},  // 配置请求头

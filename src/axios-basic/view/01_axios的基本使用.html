@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>axios的基本使用</title>
-  <script src="../resource/axios.min.js"></script>
+  <script src="../../resource/axios.min.js"></script>
 </head>
 <body>
   <button id="btn1">点我获取所有人的信息</button><br><br>
@@ -50,7 +50,7 @@
     btn1.onclick = async() => {
       // 完整版
       const result = axios({
-        url:'http://localhost:5000/persons',   // 请求地址
+        url:'http://localhost:3000/persons',   // 请求地址
         method:'GET'
       })
       console.log(result);
@@ -60,12 +60,12 @@
       )
 
       // 精简版，(配置不了超时时间)
-      // axios.get('http://localhost:5000/persons').then(
+      // axios.get('http://localhost:3000/persons').then(
       //   response => {console.log('请求成功了！',response.data);},
       //   error => {console.log('请求失败了！',error);}
       // )
       
-      // const result = await axios.get('http://localhost:5000/persons')
+      // const result = await axios.get('http://localhost:3000/personss')
       // console.log(result.data);
     }
 
@@ -73,7 +73,7 @@
     btn2.onclick= () => {
       // 完整版
       // axios({
-      //   url:'http://localhost:5000/person',
+      //   url:'http://localhost:3000/persons',
       //   method:'GET',
       //   params:{    // 此处写的是params,但携带的是query参数
       //     id: personId.value
@@ -84,7 +84,7 @@
       // )
 
       // 精简版
-      axios.get('http://localhost:5000/person',{params:{id: personId.value}}).then(
+      axios.get('http://localhost:3000/persons',{params:{id: personId.value}}).then(
         response => {console.log('成功了',response.data);},
         error => {console.log('失败了',error);}
       )
@@ -93,64 +93,63 @@
     // 添加一个人的信息---发送POST请求--携带请求体参数，json编码/urlencoded编码
     btn3.onclick = () => {
       // 完整版
-      // axios({
-      //   url:'http://localhost:5000/person',
-      //   method:'POST',
-      //   // data:{  // 携带请求体参数(默认是json编码)
-      //   //   name:personName.value,
-      //   //   age:personAge.value
-      //   // }
-      //   data:`name=${personName.value}&age=${personAge.value}` // 携带请求体参数(urlencoded编码)
-      // }).then(
-      //   response => {console.log('成功了',response.data);},
-      //   error => {console.log('失败了',error);}
-      // )
+      axios({
+        url:'http://localhost:3000/persons',
+        method:'POST',
+        data:{  // 携带请求体参数(默认是json编码)
+          name:personName.value,
+          age:personAge.value
+        }
+        // data:`name=${personName.value}&age=${personAge.value}` // 携带请求体参数(urlencoded编码)
+      }).then(
+        response => {console.log('成功了',response.data);},
+        error => {console.log('失败了',error);}
+      )
 
       // 精简版
       // 1、json编码
-      axios.post('http://localhost:5000/person',{name:personName.value,age:personAge.value}).then(
-        response => {console.log('成功了',response.data);},
-        error => {console.log('失败了',error);}
-      )
-      // 1、urlencoded编码
-      axios.post('http://localhost:5000/person',`name=${personName.value}&age=${personAge.value}`).then(
-        response => {console.log('成功了',response.data);},
-        error => {console.log('失败了',error);}
-      )
+      // axios.post('http://localhost:3000/persons',{name:personName.value,age:personAge.value}).then(
+      //   response => {console.log('成功了',response.data);},
+      //   error => {console.log('失败了',error);}
+      // )
+      // // 1、urlencoded编码
+      // axios.post('http://localhost:3000/persons',`name=${personName.value}&age=${personAge.value}`).then(
+      //   response => {console.log('成功了',response.data);},
+      //   error => {console.log('失败了',error);}
+      // )
     }
 
     // 更新一个人的信息---发送PUT请求--携带请求体参数，json编码/urlencoded编码
     btn4.onclick = () => {
       // 完整版
-      // axios({
-      //   url:'http://localhost:5000/person',
-      //   method: 'PUT',
-      //   data:{
-      //     id:personUpdateId.value,
-      //     name:personUpdateName.value,
-      //     age:personUpdateAge.value
-      //   }
-      // }).then(
-      //   response => {console.log('成功了',response.data);},
-      //   error => {console.log('失败了',error);}
-      // )
-
-      // 精简版
-      axios.put('http://localhost:5000/person',{
-        id:personUpdateId.value,
-        name:personUpdateName.value,
-        age:personUpdateAge.value
+      axios({
+        url:`http://localhost:3000/persons/${personUpdateId.value}`,
+        method: 'PUT',
+        data:{
+          name:personUpdateName.value,
+          age:personUpdateAge.value
+        }
       }).then(
         response => {console.log('成功了',response.data);},
         error => {console.log('失败了',error);}
       )
+
+      // 精简版
+      // axios.put('http://localhost:3000/persons',{
+      //   id:personUpdateId.value,
+      //   name:personUpdateName.value,
+      //   age:personUpdateAge.value
+      // }).then(
+      //   response => {console.log('成功了',response.data);},
+      //   error => {console.log('失败了',error);}
+      // )
     }
 
     // 删除一个人---发送DELETE请求--携带params参数
     btn5.onclick = () => {
       // 完整版
       // axios({
-      //   url:`http://localhost:5000/person/${personDeleteId.value}`,
+      //   url:`http://localhost:3000/persons/${personDeleteId.value}`,
       //   method: 'DELETE'
       // }).then(
       //   response => {console.log('成功了',response.data);},
@@ -158,7 +157,7 @@
       // )
 
       // 精简版
-      axios.delete(`http://localhost:5000/person/${personDeleteId.value}`).then(
+      axios.delete(`http://localhost:3000/persons/${personDeleteId.value}`).then(
         response => {console.log('成功了',response.data);},
         error => {console.log('失败了',error);}
       )
