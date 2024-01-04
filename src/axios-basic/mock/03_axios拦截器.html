@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>axios拦截器</title>
+</head>
+<body>
+  <script type="text/javascript">
+
+    // 拦截器管理器构造函数
+    function IntercepterManager(){
+      this.handles = []
+    }
+    IntercepterManager.prototype.use = function(fulfilled, rejected){
+      this.handles.push({
+        fulfilled,
+        rejected
+      })
+    }
+    
+    // 构造函数
+    function Axios(config){
+      // 初始化
+      this.default = config;  // 为了创建 default 默认属性
+      this.interceptors = {
+        request: new IntercepterManager(),
+        response: new IntercepterManager(),
+      }
+    }
+
+    // 原型添加相关的方法
+    // 发送请求，难点与重点
+    Axios.prototype.request = function(config) {
+      // 创建一个promise对象
+      let promise = Promise.resolve(config)
+      // 创建一个数组
+      let chains = [dispatchRequest, undefined] 
+      // 处理拦截器
+      // 请求拦截器 将请求拦截器的回调 压入到 chains 的前面 request.handles = []
+      this.interceptors.request.handles.forEach(item => {
+        chains.unshift(item.fulfilled, item.rejected)
+      })
+      // 响应拦截器
+      this.interceptors.response.handles.forEach(item => {
+        chains.push(item.fulfilled, item.rejected)
+      })
+      // 遍历
+      while(chains.length){
+        promise = promise.then(chains.shift(), chains.shift())
+      }
+      return promise
+    }
+    Axios.prototype.get = function(config){
+      return this.request({method: "GET"})
+    }
+    Axios.prototype.post = function(config){
+      return this.request({method: "POST"})
+    }
+
+    // 真正发请求的小老板
+    function dispatchRequest(config){
+      return new Promise((resolve, rejected) => {
+        resolve({
+          name:"chy",
+          status: 200,
+          statusText: 'OK'
+        })
+      })
+    }
+
+    // 声明函数
+    function createInstance(config){
+      // 实力化一个对象
+      let context = new Axios(config) // context.get() context.post() 但是不能当做函数去使用 context({})
+      // 创建请求函数
+      let instance = Axios.prototype.request.bind(context) // instance 是一个函数 并且可以 instance({}) 此时instance 不能 intance.get() 或 intance.post()
+      // 将Axios.prototype 对象中的方法添加到instance函数对象中
+      Object.keys(Axios.prototype).forEach(key => {
+        instance[key] = Axios.prototype[key].bind(context) // this.default  this.interceptors
+      })
+      // 为 instance 函数对象添加属性 default 与 interceptors
+      Object.keys(context).forEach(key => {
+        instance[key] = context[key]
+      })
+      return instance
+    }
+
+    let axios = createInstance({method: "GET"})
+
+    // 以下代码是模拟拦截器
+    // 设置请求拦截器 config 配置对象
+    axios.interceptors.request.use(function one(config){
+      console.log("请求拦截器  成功1");
+      return config
+    },function one(error){
+      console.log("请求拦截器  失败1");
+      return Promise.reject(error)
+    })
+    axios.interceptors.request.use(function two(config){
+      console.log("请求拦截器  成功2");
+      return config
+    },function two(error){
+      console.log("请求拦截器失败2");
+      return Promise.reject(error)
+    })
+    axios.interceptors.response.use(function one(response){
+      console.log("响应拦截器  成功1");
+      return response
+    },function one(error){
+      console.log("响应拦截器  失败1");
+      return Promise.reject(error)
+    })
+    axios.interceptors.response.use(function two(response){
+      console.log("响应拦截器  成功2");
+      // 添加属性
+      response.lulu = "lulu"
+      return response
+    },function two(error){
+      console.log("响应拦截器  失败2");
+      return Promise.reject(error)
+    })
+
+    // 发送请求
+    axios({
+      method: "GET"
+    }).then(res => {
+      console.log(res);
+    })
+    // axios.get()
+  </script>
+</body>
+</html>
